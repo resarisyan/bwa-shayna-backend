@@ -9,6 +9,20 @@
                         <h4 class="box-title">Daftar Barang</h4>
                     </div>
                     <div class="card-body--">
+                        <a href="{{ route("products.print") }}" class="btn btn-danger">PRINT</a>
+                        <a href="{{ route("products.export") }}" class="btn btn-success">Export</a>
+                        <form action="{{ route('products.import') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="input-group">
+                                <div class="custom-file">
+                                  <input name="file" type="file" class="custom-file-input" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
+                                  <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
+                                </div>
+                                <div class="input-group-append">
+                                  <button type="submit" class="btn btn-outline-secondary" id="inputGroupFileAddon04">Import</button>
+                                </div>
+                              </div>
+                        </form>
                         <div class="table-stats order-table ov-h">
                             <table class="table">
                                 <thead>

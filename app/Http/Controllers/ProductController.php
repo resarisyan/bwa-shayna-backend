@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ProductExport;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Http\Requests\ProductRequest;
+use App\Imports\ProductImport;
 use App\Models\ProductGallery;
 use Illuminate\Support\Str;
+use PDF;
+use Excel;
 
 use function Ramsey\Uuid\v1;
 
@@ -120,5 +124,23 @@ class ProductController extends Controller
             'product' => $product,
             'items' => $items
         ]);
+    }
+
+    public function print_product()
+    {
+        $data['products'] = Product::all();
+        $pdf = PDF::loadView('pages.products.pdf', $data);
+        return $pdf->download('products.pdf');
+    }
+
+    public function export_product()
+    {
+        return Excel::download(new ProductExport, 'product.xlsx');
+    }
+
+    public function import_product(Request $request)
+    {
+        // dd($request->file('file'));
+        return Excel::import(new ProductImport, $request->file('file'));
     }
 }
